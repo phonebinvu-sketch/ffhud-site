@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chia Sẻ Mã HUD Free Fire 3 Ngón - 24/7</title>
+  <!-- Tailwind CSS cho Giao diện -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 p-4 sticky top-0 bg-slate-900/90 backdrop-blur z-10">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-yellow-500 flex items-center gap-2">
+        <span>🔥</span> HUD Sharing Hub
+      </h1>
+      <span class="text-xs bg-green-900/80 text-green-300 px-3 py-1 rounded-full font-bold border border-green-500/30">
+        Server 24/7 Online
+      </span>
+    </div>
+  </header>
+
+  <!-- Content Container -->
+  <main class="max-w-6xl mx-auto p-4 mt-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-200 border-l-4 border-yellow-500 pl-3">
+        Setting HUD 3 Ngón Đề Xuất
+      </h2>
+    </div>
+
+    <!-- Grid danh sách HUD -->
+    <div id="hud-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Dữ liệu sẽ hiển thị tại đây -->
+    </div>
+  </main>
+
+  <script>
+    // Dữ liệu Setting HUD trực tiếp
+    const hudsData = [
+      {
+        id: 1,
+        title: "Setting HUD 3 ngón iPhone (Kéo tâm nhạy, giật keo siêu mượt)",
+        game: "Free Fire",
+        fingers: 3,
+        hud_code: "#FFHUDT6O3jkSV8d9Po7eO",
+        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+        dpi: 0,
+        device: "iPhone / iOS"
+      },
+      {
+        id: 2,
+        title: "Setting HUD 3 ngón OPPO & Android (Tối ưu nút bấm, mượt cho Android)",
+        game: "Free Fire",
+        fingers: 3,
+        hud_code: "#FFHUDT6O3j0VFjPVPo7eO",
+        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
+        dpi: 480,
+        device: "OPPO / Android"
+      }
+    ];
+
+    function renderHUDs() {
+      const container = document.getElementById('hud-list');
+      container.innerHTML = '';
+
+      hudsData.forEach(hud => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-800/90 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-yellow-500 transition-all duration-300 shadow-xl flex flex-col justify-between';
+        
+        card.innerHTML = `
+          <div>
+            <div class="relative">
+              <img src="${hud.image_url}" class="w-full h-52 object-cover" alt="${hud.title}">
+              <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur text-yellow-400 text-xs font-bold px-3 py-1 rounded-full border border-yellow-500/30">
+                ${hud.device}
+              </span>
+            </div>
+            
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="bg-yellow-500/10 text-yellow-500 text-xs px-2.5 py-1 rounded-full font-bold border border-yellow-500/20">${hud.game}</span>
+                <span class="bg-blue-500/10 text-blue-400 text-xs px-2.5 py-1 rounded-full font-medium border border-blue-500/20">${hud.fingers} Ngón</span>
+                ${hud.dpi > 0 
+                  ? `<span class="bg-purple-500/10 text-purple-400 text-xs px-2.5 py-1 rounded-full font-medium border border-purple-500/20">DPI: ${hud.dpi}</span>` 
+                  : '<span class="bg-gray-500/10 text-gray-400 text-xs px-2.5 py-1 rounded-full font-medium border border-gray-500/20">DPI Mặc Định</span>'}
+              </div>
+              <h3 class="font-bold text-lg mb-4 text-white leading-snug">${hud.title}</h3>
+            </div>
+          </div>
+
+          <div class="p-5 pt-0">
+            <div class="bg-slate-950 p-3 rounded-xl flex justify-between items-center font-mono border border-slate-800">
+              <span class="text-yellow-400 font-bold text-sm truncate mr-2 select-all">${hud.hud_code}</span>
+              <button onclick="copyCode('${hud.hud_code}', this)" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition-all duration-200 active:scale-95 shrink-0 shadow-md">
+                Copy Mã
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function copyCode(code, btn) {
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Đã chép! ✓';
+        btn.className = btn.className.replace('bg-yellow-500 hover:bg-yellow-400 text-slate-950', 'bg-green-500 text-white');
+        
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.className = btn.className.replace('bg-green-500 text-white', 'bg-yellow-500 hover:bg-yellow-400 text-slate-950');
+        }, 2000);
+      });
+    }
+
+    // Hiển thị danh sách ngay khi tải xong trang
+    renderHUDs();
+  </script>
+</body>
+</html>
