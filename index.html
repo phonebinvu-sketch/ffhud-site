@@ -6,6 +6,8 @@
   <title>Chia Sẻ Mã HUD Free Fire Pro - 24/7</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-slate-900 text-white min-h-screen">
 
@@ -109,9 +111,49 @@
   </main>
 
   <script>
-    let currentUser = null;
+    // Config Supabase
+    const SUPABASE_URL = 'https://ihljsolyzvjzsjwrbyuq.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_CUeTKp5-Yu9qq0N3sGcJhg_3CpArKOe';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Quản lý Modal & Tab
+    let currentUser = null;
+    let hudsData = [];
+    let currentFilter = 'all';
+
+    // Hàm lấy danh sách HUD từ Supabase
+    async function fetchHUDsFromSupabase() {
+      try {
+        const { data, error } = await supabaseClient
+          .from('huds')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) {
+          console.error('Lỗi Supabase:', error.message);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          hudsData = data.map(item => ({
+            id: item.id,
+            title: item.title,
+            game: item.game || 'Free Fire',
+            fingers: item.fingers,
+            badge: item.badge,
+            badgeColor: item.badge_color || item.badgeColor,
+            hud_code: item.hud_code,
+            desc: item.description || item.desc,
+            tip: item.tip,
+            image_url: item.image_url
+          }));
+          renderHUDs();
+        }
+      } catch (err) {
+        console.error('Lỗi kết nối Supabase:', err);
+      }
+    }
+
+    // Quản lý Modal Auth
     function openAuthModal(type = 'login') {
       document.getElementById('auth-modal').classList.remove('hidden');
       switchTab(type);
@@ -209,185 +251,7 @@
       location.reload();
     }
 
-    // --- DANH SÁCH TOÀN BỘ 14 HUD ---
-    const hudsData = [
-      // --- GÓI 2 NGÓN ---
-      {
-        id: 1,
-        title: "Fast Movement (2 Ngón)",
-        game: "Free Fire",
-        fingers: 2,
-        badge: "NHANH",
-        badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-        hud_code: "#FFHUDT603jj080htPo7eP",
-        desc: "Bố cục 2 ngón cho cảm giác linh hoạt trong giao tranh gần. Hợp nếu bạn thích kéo tâm nhanh và các nút nằm trong tầm tay dễ bấm.",
-        tip: "kéo nút Keo/Nhảy vào hơi sát trong để tránh che tầm nhìn.",
-        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
-      },
-      {
-        id: 2,
-        title: "Standard Rank (2 Ngón)",
-        game: "Free Fire",
-        fingers: 2,
-        badge: "PHỔ BIẾN",
-        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-        hud_code: "#FFHUDT603jj080htPo7eP",
-        desc: "Màn hình thoáng + giao tranh ổn định. Rất hợp nếu bạn muốn một HUD 2 ngón dễ làm quen để leo rank đều tay.",
-        tip: "giữ kích thước nút Bắn vừa tay, đừng thu nhỏ quá.",
-        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
-      },
-      {
-        id: 3,
-        title: "Auto Gloo Wall (2 Ngón)",
-        game: "Free Fire",
-        fingers: 2,
-        badge: "THỦ",
-        badgeColor: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-        hud_code: "#FFHUDT603jjGFR1tPo7eP",
-        desc: "Tập trung vào thao tác tiện ích nhanh hơn như keo và hành động phụ. Rất ổn cho người chơi BR thiên hướng sinh tồn.",
-        tip: "giảm độ đậm của các nút phụ để vẫn bám mục tiêu dễ hơn.",
-        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
-      },
-      {
-        id: 4,
-        title: "OB55 Season Pack",
-        game: "Free Fire",
-        fingers: 2,
-        badge: "MỚI",
-        badgeColor: "bg-red-500/20 text-red-400 border-red-500/30",
-        hud_code: "#FFHUDT603j1m5zV9Po7eN",
-        desc: "Bố cục 2 ngón cho cảm giác mới sau bản cập nhật, phù hợp để làm quen lại thao tác tay và luyện ở khu tập.",
-        tip: "test khoảng 10 phút ở khu luyện tập trước khi vào rank.",
-        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
-      },
-
-      // --- GÓI 3 NGÓN ---
-      {
-        id: 5,
-        title: "Ultimate Speed 3-Finger",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "ĐỀ XUẤT",
-        badgeColor: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-        hud_code: "#FFHUDT6O3jkSV8d9Po7eO",
-        desc: "Kéo tâm nhạy, giật keo siêu mượt. Tối ưu vị trí nút bấm giao tranh tầm gần và tầm trung.",
-        tip: "đặt nút Keo ở vị trí ngón trỏ trái để nhả keo nhanh nhất.",
-        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
-      },
-      {
-        id: 6,
-        title: "Pro Balance 3-Finger",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "CÂN BẰNG",
-        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-        hud_code: "#FFHUDT6O3j0VFjPVPo7eO",
-        desc: "Tối ưu khoảng cách các nút bấm, giúp thao tác không bị bấm nhầm, hỗ trợ di chuyển và ngắm mượt mà.",
-        tip: "đặt nút Ngắm ở khoảng cách vừa phải với ngón trỏ phải.",
-        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
-      },
-      {
-        id: 7,
-        title: "Claw Hybrid Rank",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "CÂN BẰNG",
-        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-        hud_code: "#FFHUDT603jj080htPo7e0",
-        desc: "Dễ chuyển từ 2 ngón lên claw. Giúp bạn vừa bắn vừa di chuyển mượt hơn mà chưa cần lên hẳn 4 ngón.",
-        tip: "tách nút Ngắm và Bắn ra đủ xa để ngón tay không bị chồng nhau.",
-        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
-      },
-      {
-        id: 8,
-        title: "Cross-Game Style",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "LAI",
-        badgeColor: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-        hud_code: "#FFHUDT603j1m5zV9Po7eN",
-        desc: "Nếu bạn chuyển từ các game bắn súng khác sang, khoảng cách nút kiểu này sẽ khá quen tay. Hợp để luyện aim ổn định.",
-        tip: "tăng khoảng cách giữa các nút nếu bạn hay bấm nhầm khi rush.",
-        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
-      },
-      {
-        id: 9,
-        title: "Clean Control (3 Ngón)",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "KIỂM SOÁT",
-        badgeColor: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
-        hud_code: "#FFHUDT603jjGFR1tPo7e0",
-        desc: "Ít rối mắt hơn để kéo tâm và tracking tốt hơn. Hợp cho AR tầm trung và các pha giao tranh bình tĩnh.",
-        tip: "giảm độ đậm của nút ít dùng để màn hình thoáng.",
-        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
-      },
-      {
-        id: 10,
-        title: "Fast Utility 3-Finger",
-        game: "Free Fire",
-        fingers: 3,
-        badge: "TIỆN ÍCH",
-        badgeColor: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-        hud_code: "#FFHUDT603j1m5zV9Po7eP",
-        desc: "Tối ưu cho thao tác keo / đổi súng / ngồi nhanh nhưng vẫn giữ tâm bắn ổn định.",
-        tip: "đừng đặt nút keo quá gần nút Bắn để tránh chạm nhầm.",
-        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
-      },
-
-      // --- GÓI 4 NGÓN ---
-      {
-        id: 11,
-        title: "Claw Master Pro",
-        game: "Free Fire",
-        fingers: 4,
-        badge: "PRO",
-        badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-        hud_code: "#FFHUDT603jj080htPo7eM",
-        desc: "Bố cục thao tác tốc độ cao cho combo nhảy / ngồi / ngắm cực nhanh. Rất hợp khi chơi Tử Chiến.",
-        tip: "tăng khoảng trống quanh nút Bắn để tránh vuốt lệch ngoài ý muốn.",
-        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
-      },
-      {
-        id: 12,
-        title: "Rush Master Claw",
-        game: "Free Fire",
-        fingers: 4,
-        badge: "RUSH",
-        badgeColor: "bg-red-500/20 text-red-400 border-red-500/30",
-        hud_code: "#FFHUDT603jjGFR1tPo7e0",
-        desc: "Thiết kế cho lối đánh áp lực cao và thao tác tiện ích nhanh. Phù hợp nếu bạn thích nhịp giao tranh tầm gần.",
-        tip: "giữ nút keo ở một góc cố định để build cảm giác tay ổn định hơn.",
-        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
-      },
-      {
-        id: 13,
-        title: "Quick Switch Claw",
-        game: "Free Fire",
-        fingers: 4,
-        badge: "PHỔ BIẾN",
-        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-        hud_code: "#FFHUDT603jjGFR1tPo7eM",
-        desc: "Tốt cho đổi súng nhanh mà vẫn giữ góc nhìn sạch. Dùng ổn cho cả BR lẫn Tử Chiến.",
-        tip: "nếu hay đổi nhầm súng, hãy đặt ô súng thấp xuống một chút.",
-        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
-      },
-      {
-        id: 14,
-        title: "Claw Starter Pack",
-        game: "Free Fire",
-        fingers: 4,
-        badge: "AN TOÀN",
-        badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-        hud_code: "#FFHUDT603j1m5zV9Po7e0",
-        desc: "Bố cục 4 ngón nhẹ hơn để luyện claw mà không bị ngợp. Hợp cho người mới tập từng bước.",
-        tip: "bắt đầu với nút to hơn, sau 2–3 ngày hãy giảm từ từ.",
-        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
-      }
-    ];
-
-    let currentFilter = 'all';
-
+    // Hiển thị danh sách HUD
     function renderHUDs() {
       const container = document.getElementById('hud-list');
       container.innerHTML = '';
@@ -395,6 +259,15 @@
       const filteredData = currentFilter === 'all' 
         ? hudsData 
         : hudsData.filter(item => item.fingers === currentFilter);
+
+      if (filteredData.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-12 text-gray-400">
+            Đang kết nối Supabase hoặc chưa có dữ liệu...
+          </div>
+        `;
+        return;
+      }
 
       filteredData.forEach(hud => {
         const card = document.createElement('div');
@@ -474,8 +347,9 @@
       });
     }
 
+    // Khởi tạo ứng dụng
     checkLogin();
-    renderHUDs();
+    fetchHUDsFromSupabase();
   </script>
 </body>
 </html>
