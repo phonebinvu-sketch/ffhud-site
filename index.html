@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chia Sẻ Mã HUD Free Fire 3 Ngón - 24/7</title>
-  <!-- Tailwind CSS cho Giao diện -->
+  <title>Chia Sẻ Mã HUD Free Fire Pro - 24/7</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-white min-h-screen">
@@ -15,65 +15,413 @@
       <h1 class="text-2xl font-bold text-yellow-500 flex items-center gap-2">
         <span>🔥</span> HUD Sharing Hub
       </h1>
-      <span class="text-xs bg-green-900/80 text-green-300 px-3 py-1 rounded-full font-bold border border-green-500/30">
-        Server 24/7 Online
-      </span>
+      
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-block text-xs bg-green-900/80 text-green-300 px-3 py-1 rounded-full font-bold border border-green-500/30">
+          Server 24/7 Online
+        </span>
+
+        <!-- Khu vực Tài khoản -->
+        <div id="user-area">
+          <button onclick="openAuthModal('login')" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-xl transition shadow-md">
+            Đăng nhập / Đăng ký
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
+  <!-- Modal Popup Đăng nhập / Đăng ký -->
+  <div id="auth-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+      
+      <!-- Nút đóng x -->
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-full w-8 h-8 flex items-center justify-center text-sm transition">
+        ✕
+      </button>
+
+      <!-- Tab chuyển Đăng nhập / Đăng ký -->
+      <div class="flex border-b border-slate-800 mb-6">
+        <button id="tab-login" onclick="switchTab('login')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-yellow-500 text-yellow-400">
+          Đăng nhập
+        </button>
+        <button id="tab-register" onclick="switchTab('register')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white">
+          Tạo tài khoản
+        </button>
+      </div>
+
+      <!-- Form Đăng nhập -->
+      <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-1">Tên tài khoản</label>
+          <input type="text" id="login-username" required placeholder="Nhập tên tài khoản" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-yellow-500 text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-1">Mật khẩu</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-yellow-500 text-white">
+        </div>
+        <p id="login-error" class="text-xs text-red-400 hidden"></p>
+        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold py-3 rounded-xl transition shadow-lg text-sm">
+          Đăng nhập ngay
+        </button>
+      </form>
+
+      <!-- Form Đăng ký -->
+      <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-1">Tạo tên tài khoản</label>
+          <input type="text" id="reg-username" required placeholder="Ví dụ: gamer123" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-yellow-500 text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-1">Tạo mật khẩu</label>
+          <input type="password" id="reg-password" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-yellow-500 text-white">
+        </div>
+        <p id="reg-error" class="text-xs text-red-400 hidden"></p>
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-white font-extrabold py-3 rounded-xl transition shadow-lg text-sm">
+          Tạo tài khoản mới
+        </button>
+      </form>
+
+    </div>
+  </div>
+
   <!-- Content Container -->
   <main class="max-w-6xl mx-auto p-4 mt-6">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-200 border-l-4 border-yellow-500 pl-3">
-        Setting HUD 3 Ngón Đề Xuất
-      </h2>
+    
+    <!-- Bộ Lọc Tab -->
+    <div class="flex flex-wrap gap-3 mb-8 justify-center sm:justify-start">
+      <button onclick="filterHUDs('all')" id="btn-all" class="tab-btn bg-yellow-500 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-sm transition-all shadow-md">
+        🌟 Tất Cả HUD
+      </button>
+      <button onclick="filterHUDs(2)" id="btn-2" class="tab-btn bg-slate-800 hover:bg-slate-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-sm border border-slate-700 transition-all">
+        ⚡ Gói 2 Ngón
+      </button>
+      <button onclick="filterHUDs(3)" id="btn-3" class="tab-btn bg-slate-800 hover:bg-slate-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-sm border border-slate-700 transition-all">
+        ⚡ Gói 3 Ngón
+      </button>
+      <button onclick="filterHUDs(4)" id="btn-4" class="tab-btn bg-slate-800 hover:bg-slate-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-sm border border-slate-700 transition-all">
+        ⚡ Gói 4 Ngón
+      </button>
     </div>
 
     <!-- Grid danh sách HUD -->
-    <div id="hud-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Dữ liệu sẽ hiển thị tại đây -->
-    </div>
+    <div id="hud-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
   </main>
 
   <script>
-    // Dữ liệu Setting HUD trực tiếp
+    let currentUser = null;
+
+    // Quản lý Modal & Tab
+    function openAuthModal(type = 'login') {
+      document.getElementById('auth-modal').classList.remove('hidden');
+      switchTab(type);
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+    }
+
+    function switchTab(type) {
+      const tabLogin = document.getElementById('tab-login');
+      const tabReg = document.getElementById('tab-register');
+      const formLogin = document.getElementById('form-login');
+      const formReg = document.getElementById('form-register');
+
+      if (type === 'login') {
+        tabLogin.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-yellow-500 text-yellow-400";
+        tabReg.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white";
+        formLogin.classList.remove('hidden');
+        formReg.classList.add('hidden');
+      } else {
+        tabReg.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-yellow-500 text-yellow-400";
+        tabLogin.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white";
+        formReg.classList.remove('hidden');
+        formLogin.classList.add('hidden');
+      }
+    }
+
+    // Xử lý Đăng ký
+    function handleRegister(e) {
+      e.preventDefault();
+      const u = document.getElementById('reg-username').value.trim();
+      const p = document.getElementById('reg-password').value.trim();
+      const err = document.getElementById('reg-error');
+
+      let users = JSON.parse(localStorage.getItem('app_users') || '{}');
+      if (users[u]) {
+        err.innerText = "Tên tài khoản này đã tồn tại!";
+        err.classList.remove('hidden');
+        return;
+      }
+
+      users[u] = p;
+      localStorage.setItem('app_users', JSON.stringify(users));
+      
+      currentUser = u;
+      localStorage.setItem('current_user', u);
+      closeAuthModal();
+      renderUserHeader();
+      renderHUDs();
+    }
+
+    // Xử lý Đăng nhập
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('login-username').value.trim();
+      const p = document.getElementById('login-password').value.trim();
+      const err = document.getElementById('login-error');
+
+      let users = JSON.parse(localStorage.getItem('app_users') || '{}');
+      if (!users[u] || users[u] !== p) {
+        err.innerText = "Sai tên tài khoản hoặc mật khẩu!";
+        err.classList.remove('hidden');
+        return;
+      }
+
+      currentUser = u;
+      localStorage.setItem('current_user', u);
+      closeAuthModal();
+      renderUserHeader();
+      renderHUDs();
+    }
+
+    function checkLogin() {
+      const saved = localStorage.getItem('current_user');
+      if (saved) {
+        currentUser = saved;
+        renderUserHeader();
+      }
+    }
+
+    function renderUserHeader() {
+      const userArea = document.getElementById('user-area');
+      userArea.innerHTML = `
+        <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+          <span class="text-xs font-bold text-yellow-400">👤 ${currentUser}</span>
+          <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 ml-2 font-bold">Đăng xuất</button>
+        </div>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem('current_user');
+      currentUser = null;
+      location.reload();
+    }
+
+    // --- DANH SÁCH TOÀN BỘ 14 HUD ---
     const hudsData = [
+      // --- GÓI 2 NGÓN ---
       {
         id: 1,
-        title: "Setting HUD 3 ngón iPhone (Kéo tâm nhạy, giật keo siêu mượt)",
+        title: "Fast Movement (2 Ngón)",
         game: "Free Fire",
-        fingers: 3,
-        hud_code: "#FFHUDT6O3jkSV8d9Po7eO",
-        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
-        dpi: 0,
-        device: "iPhone / iOS"
+        fingers: 2,
+        badge: "NHANH",
+        badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+        hud_code: "#FFHUDT603jj080htPo7eP",
+        desc: "Bố cục 2 ngón cho cảm giác linh hoạt trong giao tranh gần. Hợp nếu bạn thích kéo tâm nhanh và các nút nằm trong tầm tay dễ bấm.",
+        tip: "kéo nút Keo/Nhảy vào hơi sát trong để tránh che tầm nhìn.",
+        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
       },
       {
         id: 2,
-        title: "Setting HUD 3 ngón OPPO & Android (Tối ưu nút bấm, mượt cho Android)",
+        title: "Standard Rank (2 Ngón)",
+        game: "Free Fire",
+        fingers: 2,
+        badge: "PHỔ BIẾN",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+        hud_code: "#FFHUDT603jj080htPo7eP",
+        desc: "Màn hình thoáng + giao tranh ổn định. Rất hợp nếu bạn muốn một HUD 2 ngón dễ làm quen để leo rank đều tay.",
+        tip: "giữ kích thước nút Bắn vừa tay, đừng thu nhỏ quá.",
+        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
+      },
+      {
+        id: 3,
+        title: "Auto Gloo Wall (2 Ngón)",
+        game: "Free Fire",
+        fingers: 2,
+        badge: "THỦ",
+        badgeColor: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+        hud_code: "#FFHUDT603jjGFR1tPo7eP",
+        desc: "Tập trung vào thao tác tiện ích nhanh hơn như keo và hành động phụ. Rất ổn cho người chơi BR thiên hướng sinh tồn.",
+        tip: "giảm độ đậm của các nút phụ để vẫn bám mục tiêu dễ hơn.",
+        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
+      },
+      {
+        id: 4,
+        title: "OB55 Season Pack",
+        game: "Free Fire",
+        fingers: 2,
+        badge: "MỚI",
+        badgeColor: "bg-red-500/20 text-red-400 border-red-500/30",
+        hud_code: "#FFHUDT603j1m5zV9Po7eN",
+        desc: "Bố cục 2 ngón cho cảm giác mới sau bản cập nhật, phù hợp để làm quen lại thao tác tay và luyện ở khu tập.",
+        tip: "test khoảng 10 phút ở khu luyện tập trước khi vào rank.",
+        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
+      },
+
+      // --- GÓI 3 NGÓN ---
+      {
+        id: 5,
+        title: "Ultimate Speed 3-Finger",
         game: "Free Fire",
         fingers: 3,
+        badge: "ĐỀ XUẤT",
+        badgeColor: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+        hud_code: "#FFHUDT6O3jkSV8d9Po7eO",
+        desc: "Kéo tâm nhạy, giật keo siêu mượt. Tối ưu vị trí nút bấm giao tranh tầm gần và tầm trung.",
+        tip: "đặt nút Keo ở vị trí ngón trỏ trái để nhả keo nhanh nhất.",
+        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
+      },
+      {
+        id: 6,
+        title: "Pro Balance 3-Finger",
+        game: "Free Fire",
+        fingers: 3,
+        badge: "CÂN BẰNG",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
         hud_code: "#FFHUDT6O3j0VFjPVPo7eO",
-        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
-        dpi: 480,
-        device: "OPPO / Android"
+        desc: "Tối ưu khoảng cách các nút bấm, giúp thao tác không bị bấm nhầm, hỗ trợ di chuyển và ngắm mượt mà.",
+        tip: "đặt nút Ngắm ở khoảng cách vừa phải với ngón trỏ phải.",
+        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
+      },
+      {
+        id: 7,
+        title: "Claw Hybrid Rank",
+        game: "Free Fire",
+        fingers: 3,
+        badge: "CÂN BẰNG",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+        hud_code: "#FFHUDT603jj080htPo7e0",
+        desc: "Dễ chuyển từ 2 ngón lên claw. Giúp bạn vừa bắn vừa di chuyển mượt hơn mà chưa cần lên hẳn 4 ngón.",
+        tip: "tách nút Ngắm và Bắn ra đủ xa để ngón tay không bị chồng nhau.",
+        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
+      },
+      {
+        id: 8,
+        title: "Cross-Game Style",
+        game: "Free Fire",
+        fingers: 3,
+        badge: "LAI",
+        badgeColor: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+        hud_code: "#FFHUDT603j1m5zV9Po7eN",
+        desc: "Nếu bạn chuyển từ các game bắn súng khác sang, khoảng cách nút kiểu này sẽ khá quen tay. Hợp để luyện aim ổn định.",
+        tip: "tăng khoảng cách giữa các nút nếu bạn hay bấm nhầm khi rush.",
+        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
+      },
+      {
+        id: 9,
+        title: "Clean Control (3 Ngón)",
+        game: "Free Fire",
+        fingers: 3,
+        badge: "KIỂM SOÁT",
+        badgeColor: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+        hud_code: "#FFHUDT603jjGFR1tPo7e0",
+        desc: "Ít rối mắt hơn để kéo tâm và tracking tốt hơn. Hợp cho AR tầm trung và các pha giao tranh bình tĩnh.",
+        tip: "giảm độ đậm của nút ít dùng để màn hình thoáng.",
+        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
+      },
+      {
+        id: 10,
+        title: "Fast Utility 3-Finger",
+        game: "Free Fire",
+        fingers: 3,
+        badge: "TIỆN ÍCH",
+        badgeColor: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+        hud_code: "#FFHUDT603j1m5zV9Po7eP",
+        desc: "Tối ưu cho thao tác keo / đổi súng / ngồi nhanh nhưng vẫn giữ tâm bắn ổn định.",
+        tip: "đừng đặt nút keo quá gần nút Bắn để tránh chạm nhầm.",
+        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
+      },
+
+      // --- GÓI 4 NGÓN ---
+      {
+        id: 11,
+        title: "Claw Master Pro",
+        game: "Free Fire",
+        fingers: 4,
+        badge: "PRO",
+        badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+        hud_code: "#FFHUDT603jj080htPo7eM",
+        desc: "Bố cục thao tác tốc độ cao cho combo nhảy / ngồi / ngắm cực nhanh. Rất hợp khi chơi Tử Chiến.",
+        tip: "tăng khoảng trống quanh nút Bắn để tránh vuốt lệch ngoài ý muốn.",
+        image_url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80"
+      },
+      {
+        id: 12,
+        title: "Rush Master Claw",
+        game: "Free Fire",
+        fingers: 4,
+        badge: "RUSH",
+        badgeColor: "bg-red-500/20 text-red-400 border-red-500/30",
+        hud_code: "#FFHUDT603jjGFR1tPo7e0",
+        desc: "Thiết kế cho lối đánh áp lực cao và thao tác tiện ích nhanh. Phù hợp nếu bạn thích nhịp giao tranh tầm gần.",
+        tip: "giữ nút keo ở một góc cố định để build cảm giác tay ổn định hơn.",
+        image_url: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
+      },
+      {
+        id: 13,
+        title: "Quick Switch Claw",
+        game: "Free Fire",
+        fingers: 4,
+        badge: "PHỔ BIẾN",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+        hud_code: "#FFHUDT603jjGFR1tPo7eM",
+        desc: "Tốt cho đổi súng nhanh mà vẫn giữ góc nhìn sạch. Dùng ổn cho cả BR lẫn Tử Chiến.",
+        tip: "nếu hay đổi nhầm súng, hãy đặt ô súng thấp xuống một chút.",
+        image_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
+      },
+      {
+        id: 14,
+        title: "Claw Starter Pack",
+        game: "Free Fire",
+        fingers: 4,
+        badge: "AN TOÀN",
+        badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+        hud_code: "#FFHUDT603j1m5zV9Po7e0",
+        desc: "Bố cục 4 ngón nhẹ hơn để luyện claw mà không bị ngợp. Hợp cho người mới tập từng bước.",
+        tip: "bắt đầu với nút to hơn, sau 2–3 ngày hãy giảm từ từ.",
+        image_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
       }
     ];
+
+    let currentFilter = 'all';
 
     function renderHUDs() {
       const container = document.getElementById('hud-list');
       container.innerHTML = '';
 
-      hudsData.forEach(hud => {
+      const filteredData = currentFilter === 'all' 
+        ? hudsData 
+        : hudsData.filter(item => item.fingers === currentFilter);
+
+      filteredData.forEach(hud => {
         const card = document.createElement('div');
         card.className = 'bg-slate-800/90 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-yellow-500 transition-all duration-300 shadow-xl flex flex-col justify-between';
         
+        const hudCodeHtml = currentUser ? `
+          <div class="bg-slate-950 p-3 rounded-xl flex justify-between items-center font-mono border border-slate-800 mb-3">
+            <span class="text-yellow-400 font-bold text-xs sm:text-sm truncate mr-2 select-all">${hud.hud_code}</span>
+            <button onclick="copyCode('${hud.hud_code}', this)" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition-all duration-200 active:scale-95 shrink-0 shadow-md">
+              Sao chép
+            </button>
+          </div>
+        ` : `
+          <div onclick="openAuthModal('login')" class="bg-slate-950/80 p-3 rounded-xl flex justify-between items-center font-mono border border-slate-800 mb-3 relative cursor-pointer group overflow-hidden">
+            <span class="text-yellow-400/30 font-bold text-xs sm:text-sm blur-md select-none">#FFHUDT603jj080htPo7eP</span>
+            <span class="absolute inset-0 flex items-center justify-center bg-slate-950/90 text-yellow-400 font-extrabold text-xs border border-yellow-500/30 rounded-xl group-hover:bg-yellow-500 group-hover:text-slate-950 transition">
+              🔒 Đăng nhập để mở khóa Mã HUD
+            </span>
+          </div>
+        `;
+
         card.innerHTML = `
           <div>
             <div class="relative">
-              <img src="${hud.image_url}" class="w-full h-52 object-cover" alt="${hud.title}">
-              <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur text-yellow-400 text-xs font-bold px-3 py-1 rounded-full border border-yellow-500/30">
-                ${hud.device}
+              <img src="${hud.image_url}" class="w-full h-48 object-cover" alt="${hud.title}">
+              <span class="absolute top-3 right-3 text-xs font-extrabold px-3 py-1 rounded-full border backdrop-blur ${hud.badgeColor}">
+                ${hud.badge}
               </span>
             </div>
             
@@ -81,25 +429,36 @@
               <div class="flex items-center gap-2 mb-3">
                 <span class="bg-yellow-500/10 text-yellow-500 text-xs px-2.5 py-1 rounded-full font-bold border border-yellow-500/20">${hud.game}</span>
                 <span class="bg-blue-500/10 text-blue-400 text-xs px-2.5 py-1 rounded-full font-medium border border-blue-500/20">${hud.fingers} Ngón</span>
-                ${hud.dpi > 0 
-                  ? `<span class="bg-purple-500/10 text-purple-400 text-xs px-2.5 py-1 rounded-full font-medium border border-purple-500/20">DPI: ${hud.dpi}</span>` 
-                  : '<span class="bg-gray-500/10 text-gray-400 text-xs px-2.5 py-1 rounded-full font-medium border border-gray-500/20">DPI Mặc Định</span>'}
               </div>
-              <h3 class="font-bold text-lg mb-4 text-white leading-snug">${hud.title}</h3>
+
+              <h3 class="font-bold text-lg mb-2 text-white leading-snug">${hud.title}</h3>
+              <p class="text-xs text-gray-300 leading-relaxed mb-4">${hud.desc}</p>
             </div>
           </div>
 
           <div class="p-5 pt-0">
-            <div class="bg-slate-950 p-3 rounded-xl flex justify-between items-center font-mono border border-slate-800">
-              <span class="text-yellow-400 font-bold text-sm truncate mr-2 select-all">${hud.hud_code}</span>
-              <button onclick="copyCode('${hud.hud_code}', this)" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition-all duration-200 active:scale-95 shrink-0 shadow-md">
-                Copy Mã
-              </button>
+            ${hudCodeHtml}
+
+            <div class="text-xs text-gray-400 flex items-start gap-1.5 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80 ${!currentUser ? 'blur-[1.5px] select-none' : ''}">
+              <span class="text-yellow-500 shrink-0">💡</span>
+              <span><strong class="text-gray-300">Chỉnh nhanh:</strong> ${hud.tip}</span>
             </div>
           </div>
         `;
         container.appendChild(card);
       });
+    }
+
+    function filterHUDs(fingers) {
+      currentFilter = fingers;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = 'tab-btn bg-slate-800 hover:bg-slate-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-sm border border-slate-700 transition-all';
+      });
+      const activeBtn = document.getElementById(fingers === 'all' ? 'btn-all' : `btn-${fingers}`);
+      if (activeBtn) {
+        activeBtn.className = 'tab-btn bg-yellow-500 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-sm transition-all shadow-md';
+      }
+      renderHUDs();
     }
 
     function copyCode(code, btn) {
@@ -115,7 +474,7 @@
       });
     }
 
-    // Hiển thị danh sách ngay khi tải xong trang
+    checkLogin();
     renderHUDs();
   </script>
 </body>
